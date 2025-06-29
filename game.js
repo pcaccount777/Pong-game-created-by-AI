@@ -19,6 +19,15 @@ let ballVelX = BALL_SPEED * (Math.random() > 0.5 ? 1 : -1);
 let ballVelY = BALL_SPEED * (Math.random() * 2 - 1);
 let aiSpeed = 4;
 
+let playerScore = 0;
+let aiScore = 0;
+
+// --- Sound Effects ---
+// Onlayn bepul tovush manzillari:
+const paddleHitSound = new Audio("paddle_hit.wav");
+const failSound = new Audio("failure.wav");
+
+// --- DRAWING FUNKSIYALARI ---
 function drawRect(x, y, w, h, color = '#fff') {
     ctx.fillStyle = color;
     ctx.fillRect(x, y, w, h);
@@ -29,6 +38,14 @@ function drawBall(x, y, size, color = '#fff') {
     ctx.beginPath();
     ctx.arc(x + size / 2, y + size / 2, size / 2, 0, Math.PI * 2);
     ctx.fill();
+}
+
+function drawScore() {
+    ctx.font = "40px Arial";
+    ctx.fillStyle = "#fff";
+    ctx.textAlign = "center";
+    ctx.fillText(`${playerScore}`, canvas.width / 4, 50);
+    ctx.fillText(`${aiScore}`, canvas.width * 3 / 4, 50);
 }
 
 function resetBall() {
@@ -85,9 +102,9 @@ function update() {
     if (checkCollision(PLAYER_X, playerY)) {
         ballX = PLAYER_X + PADDLE_WIDTH;
         ballVelX *= -1;
-        // Add "spin" depending on where ball hits
         let deltaY = (ballY + BALL_SIZE / 2) - (playerY + PADDLE_HEIGHT / 2);
         ballVelY = deltaY * 0.25;
+        paddleHitSound.currentTime = 0; paddleHitSound.play();
     }
 
     // AI paddle collision
@@ -96,10 +113,18 @@ function update() {
         ballVelX *= -1;
         let deltaY = (ballY + BALL_SIZE / 2) - (aiY + PADDLE_HEIGHT / 2);
         ballVelY = deltaY * 0.25;
+        paddleHitSound.currentTime = 0; paddleHitSound.play();
     }
 
-    // Left/right wall (score)
-    if (ballX < 0 || ballX + BALL_SIZE > canvas.width) {
+    // Left/right wall (score & fail sound)
+    if (ballX < 0) {
+        aiScore++;
+        failSound.currentTime = 0; failSound.play();
+        resetBall();
+    }
+    if (ballX + BALL_SIZE > canvas.width) {
+        playerScore++;
+        failSound.currentTime = 0; failSound.play();
         resetBall();
     }
 
@@ -116,6 +141,9 @@ function draw() {
 
     // Draw ball
     drawBall(ballX, ballY, BALL_SIZE, '#fff');
+
+    // Draw score
+    drawScore();
 }
 
 function loop() {
