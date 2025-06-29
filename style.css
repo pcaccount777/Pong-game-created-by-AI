@@ -13,6 +13,35 @@ h1 {
     font-size: 2em;
 }
 
+#game-controls {
+    margin-bottom: 10px;
+}
+
+#startBtn {
+    font-size: 1.2em;
+    padding: 6px 30px;
+    margin-right: 30px;
+    background: #3a80f7;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#startBtn:active {
+    background: #2460b5;
+}
+
+#timer {
+    font-size: 1.4em;
+    color: #7cf9a4;
+    font-family: "Courier New", Courier, monospace;
+    background: #181818;
+    padding: 4px 16px;
+    border-radius: 6px;
+    border: 2px solid #333;
+}
+
 #pong {
     background: #111;
     display: block;
