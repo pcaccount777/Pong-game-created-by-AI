@@ -28,8 +28,8 @@ let gameStartTime = 0;
 let timerInterval = null;
 
 // --- Sound Effects ---
-const paddleHitSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.wav");
-const failSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-player-losing-or-failing-2042.wav");
+const paddleHitSound = new Audio("paddle_hit.wav");
+const failSound = new Audio("failure.wav");
 
 // --- DRAWING FUNKSIYALARI ---
 function drawRect(x, y, w, h, color = '#fff') {
